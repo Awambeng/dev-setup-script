@@ -6,7 +6,7 @@ This script automates the installation of essential development tools on a newly
 
 - Installs essential development tools, including:
   - Docker
-  - Java (OpenJDK)
+  - Java (OpenJDK) with version selection
   - Maven
   - Node.js and npm
   - IntelliJ IDEA Community Edition
@@ -28,7 +28,7 @@ This script automates the installation of essential development tools on a newly
 1. **Clone this repository** or download the script to your local machine.
 
     ```bash
-    git clone https://github.com/Awambeng/dev-setup-script.git
+    git clone https://github.com/yourusername/dev-setup-script.git
     cd dev-setup-script
     ```
 
@@ -44,7 +44,7 @@ This script automates the installation of essential development tools on a newly
     ./install_dev_tools.sh
     ```
 
-4. **Follow the prompts**: The script will ask you for your GitHub email and username to generate SSH keys and configure Git.
+4. **Follow the prompts**: The script will ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
 
 5. **Add the SSH key to your GitHub account**: After running the script, copy the generated public SSH key from the terminal and add it to your GitHub account under **Settings > SSH and GPG keys**.
 
