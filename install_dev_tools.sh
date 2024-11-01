@@ -57,6 +57,9 @@ fi
 # Install Maven
 install_if_not_installed maven
 
+# Install Curl
+install_if_not_installed curl
+
 # Install Node.js and npm
 if ! is_installed node; then
     echo "Installing Node.js and npm..."
