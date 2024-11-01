@@ -23,9 +23,9 @@ function prompt_for_input() {
     read -p "$prompt_message: " "$variable_name"
 }
 
-# Update and upgrade the system
-echo "Updating system..."
-sudo apt update && sudo apt upgrade -y
+# Update package list
+echo "Updating package list..."
+sudo apt-get update
 
 # Install essential build tools
 install_if_not_installed build-essential
