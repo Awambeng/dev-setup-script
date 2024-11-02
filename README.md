@@ -57,6 +57,31 @@ This script automates the installation of essential development tools on a newly
 
 Feel free to modify the script to include any additional tools or configurations you may need for your specific development environment.
 
+## Script output example
+
+```bash
+Installing maven...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+maven is already the newest version (3.8.7-1).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+maven installed successfully!
+
+Node.js and npm are already installed.
+Installing IntelliJ IDEA Community Edition...
+snap "intellij-idea-community" is already installed, see 'snap help refresh'
+Visual Studio Code is already installed.
+Cleaning up...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+==============================================================
+      All done! Your system is ready for work. 🎉
+==============================================================
+```
+
 ## Contributing
 
 Contributions are welcome! If you would like to improve this script or add new features, please fork the repository, make your changes, and then create a pull request. You can also open an issue to discuss potential changes before implementing them.
