@@ -1,6 +1,6 @@
 # Developer Setup Script for Ubuntu
 
-This script automates the installation of essential development tools on a newly installed Ubuntu machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing.
+This script automates the installation of essential development tools on a newly installed Ubuntu machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing, with an option to skip the SSH setup.
 
 ## Features
 
@@ -15,7 +15,7 @@ This script automates the installation of essential development tools on a newly
   - Discord
   - Google Chrome
   - Multipass
-- Sets up SSH keys for GitHub authentication
+- Optionally sets up SSH keys for GitHub authentication
 - Configures Git for commit signing with SSH keys
 
 ## Prerequisites
@@ -44,9 +44,12 @@ This script automates the installation of essential development tools on a newly
     ./install_dev_tools.sh
     ```
 
-4. **Follow the prompts**: The script will ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
+4. **Follow the prompts**:
+    - The script will ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
+    - You will also have the option to skip the SSH setup if you do not need GitHub SSH keys.
 
-5. **Add the SSH key to your GitHub account**: After running the script, copy the generated public SSH key from the terminal and add it to your GitHub account under **Settings > SSH and GPG keys**.
+5. **Add the SSH key to your GitHub account** (if you chose to set up SSH keys):
+    - After running the script, copy the generated public SSH key from the terminal and add it to your GitHub account under **Settings > SSH and GPG keys**.
 
 ## Customization
 
