@@ -1,6 +1,6 @@
-# Developer Setup Script for Ubuntu
+# Developer Setup Script for Ubuntu and macOS
 
-This script automates the installation of essential development tools on a newly installed Ubuntu machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing, with an option to skip the SSH setup.
+This script automates the installation of essential development tools on a newly installed Ubuntu or macOS machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing, with an option to skip the SSH setup.
 
 ## Features
 
@@ -17,11 +17,13 @@ This script automates the installation of essential development tools on a newly
   - Multipass
 - Optionally sets up SSH keys for GitHub authentication
 - Configures Git for commit signing with SSH keys
+- Automatically detects the operating system (Ubuntu or macOS) and installs appropriate packages
 
 ## Prerequisites
 
-- This script is intended for Ubuntu systems. Ensure you have a freshly installed Ubuntu environment.
-- You need to have sudo privileges to install software.
+- This script is intended for Ubuntu and macOS systems. Ensure you have a freshly installed environment.
+- You need to have sudo privileges to install software on Ubuntu.
+- On macOS, ensure you have Homebrew installed.
 
 ## Usage
 
@@ -45,7 +47,7 @@ This script automates the installation of essential development tools on a newly
     ```
 
 4. **Follow the prompts**:
-    - The script will ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
+    - The script will automatically detect your operating system and ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
     - You will also have the option to skip the SSH setup if you do not need GitHub SSH keys.
 
 5. **Add the SSH key to your GitHub account** (if you chose to set up SSH keys):
