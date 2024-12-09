@@ -1,6 +1,6 @@
-# Developer Setup Script for Ubuntu
+# Developer Setup Script for Ubuntu and macOS
 
-This script automates the installation of essential development tools on a newly installed Ubuntu machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing.
+This script automates the installation of essential development tools on a newly installed Ubuntu or macOS machine. It includes the latest versions of software commonly used by developers, such as Docker, Java, IntelliJ IDEA, Visual Studio Code, and more. Additionally, it sets up SSH keys for GitHub authentication and configures Git for commit signing, with an option to skip the SSH setup.
 
 ## Features
 
@@ -15,13 +15,15 @@ This script automates the installation of essential development tools on a newly
   - Discord
   - Google Chrome
   - Multipass
-- Sets up SSH keys for GitHub authentication
+- Optionally sets up SSH keys for GitHub authentication
 - Configures Git for commit signing with SSH keys
+- Automatically detects the operating system (Ubuntu or macOS) and installs appropriate packages
 
 ## Prerequisites
 
-- This script is intended for Ubuntu systems. Ensure you have a freshly installed Ubuntu environment.
-- You need to have sudo privileges to install software.
+- This script is intended for Ubuntu and macOS systems. Ensure you have a freshly installed environment.
+- You need to have sudo privileges to install software on Ubuntu.
+- On macOS, ensure you have Homebrew installed.
 
 ## Usage
 
@@ -44,13 +46,41 @@ This script automates the installation of essential development tools on a newly
     ./install_dev_tools.sh
     ```
 
-4. **Follow the prompts**: The script will ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
+4. **Follow the prompts**:
+    - The script will automatically detect your operating system and ask you for your desired Java version and your GitHub email to generate SSH keys and configure Git.
+    - You will also have the option to skip the SSH setup if you do not need GitHub SSH keys.
 
-5. **Add the SSH key to your GitHub account**: After running the script, copy the generated public SSH key from the terminal and add it to your GitHub account under **Settings > SSH and GPG keys**.
+5. **Add the SSH key to your GitHub account** (if you chose to set up SSH keys):
+    - After running the script, copy the generated public SSH key from the terminal and add it to your GitHub account under **Settings > SSH and GPG keys**.
 
 ## Customization
 
 Feel free to modify the script to include any additional tools or configurations you may need for your specific development environment.
+
+## Script output example
+
+```bash
+Installing maven...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+maven is already the newest version (3.8.7-1).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+maven installed successfully!
+
+Node.js and npm are already installed.
+Installing IntelliJ IDEA Community Edition...
+snap "intellij-idea-community" is already installed, see 'snap help refresh'
+Visual Studio Code is already installed.
+Cleaning up...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+==============================================================
+      All done! Your system is ready for work. 🎉
+==============================================================
+```
 
 ## Contributing
 

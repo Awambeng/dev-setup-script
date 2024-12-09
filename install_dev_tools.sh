@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Define color variables
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No color
+
 # Function to check if a tool is installed
 function is_installed() {
     command -v "$1" &> /dev/null
@@ -9,10 +15,15 @@ function is_installed() {
 # Function to install a package if it's not already installed
 function install_if_not_installed() {
     if ! is_installed "$1"; then
-        echo "Installing $1..."
-        sudo apt-get install -y "$1"
+        echo -e "${YELLOW}Installing $1...${NC}"
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            sudo apt-get install -y "$1"
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            brew install "$1"
+        fi
+        echo -e "${GREEN}$1 installed successfully!${NC}\n"
     else
-        echo "$1 is already installed."
+        echo -e "${GREEN}$1 is already installed.${NC}"
     fi
 }
 
@@ -23,134 +34,148 @@ function prompt_for_input() {
     read -p "$prompt_message: " "$variable_name"
 }
 
-# Update package list
-echo "Updating package list..."
-sudo apt-get update
+echo -e "${GREEN}=============================================================="
+echo -e "      Welcome! Starting your system setup for work! 🚀"
+echo -e "==============================================================${NC}\n"
 
-# Install essential build tools
-install_if_not_installed build-essential
+# Check OS type and run appropriate commands
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Ubuntu specific commands
 
-# Install Git
-install_if_not_installed git
+    # Update and upgrade package list
+    echo -e "${YELLOW}Step 1: Updating the package lists...${NC}"
+    sudo apt-get update -y
+    echo -e "${GREEN}Package lists updated successfully!${NC}\n"
 
-# Install Docker
-if ! is_installed docker; then
-    echo "Installing Docker..."
-    sudo apt install -y docker.io
-    sudo systemctl start docker
-    sudo systemctl enable docker
-    sudo usermod -aG docker "$USER"  # Add user to the docker group
-else
-    echo "Docker is already installed."
-fi
+    echo -e "${YELLOW}Step 2: Upgrading the system...${NC}"
+    sudo apt-get upgrade -y
+    echo -e "${GREEN}System upgrade completed!${NC}\n"
 
-# Install Java (OpenJDK)
-if ! is_installed java; then
-    echo "Which version of Java would you like to install? (e.g., 17, 21)"
-    read -r java_version
-    echo "Installing OpenJDK $java_version..."
-    sudo apt install -y "openjdk-$java_version-jdk"
-else
-    echo "Java is already installed."
-fi
+    # Install essential build tools
+    install_if_not_installed build-essential
 
-# Install Maven
-install_if_not_installed maven
+    # Install Git
+    install_if_not_installed git
 
-# Install Curl
-install_if_not_installed curl
+    # Install Docker
+    if ! is_installed docker; then
+        echo -e "${YELLOW}Installing Docker...${NC}"
+        sudo apt install -y docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        sudo usermod -aG docker "$USER"  # Add user to the docker group
+    else
+        echo -e "${GREEN}Docker is already installed.${NC}"
+    fi
 
-# Install Node.js and npm
-if ! is_installed node; then
-    echo "Installing Node.js and npm..."
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt install -y nodejs
-else
-    echo "Node.js and npm are already installed."
-fi
+    # Install Java (OpenJDK)
+    if ! is_installed java; then
+        echo "Which version of Java would you like to install? (e.g., 17, 21)"
+        read -r java_version
+        echo -e "${YELLOW}Installing OpenJDK $java_version...${NC}"
+        sudo apt install -y "openjdk-$java_version-jdk"
+    else
+        echo -e "${GREEN}Java is already installed.${NC}"
+    fi
 
-# Install IntelliJ IDEA Community Edition
-if ! is_installed idea; then
-    echo "Installing IntelliJ IDEA Community Edition..."
-    sudo snap install intellij-idea-community --classic --edge
-else
-    echo "IntelliJ IDEA Community Edition is already installed."
-fi
+    # Install Maven
+    install_if_not_installed maven
 
-# Install Visual Studio Code
-if ! is_installed code; then
-    echo "Installing Visual Studio Code..."
-    sudo snap install code --classic
-else
-    echo "Visual Studio Code is already installed."
-fi
+    # Install Node.js and npm
+    if ! is_installed node; then
+        echo -e "${YELLOW}Installing Node.js and npm...${NC}"
+        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        sudo apt install -y nodejs
+    else
+        echo -e "${GREEN}Node.js and npm are already installed.${NC}"
+    fi
 
-# Install VLC
-install_if_not_installed vlc
+    # Install IntelliJ IDEA Community Edition
+    if ! is_installed idea; then
+        echo -e "${YELLOW}Installing IntelliJ IDEA Community Edition...${NC}"
+        sudo snap install intellij-idea-community --classic --edge
+    else
+        echo -e "${GREEN}IntelliJ IDEA Community Edition is already installed.${NC}"
+    fi
 
-# Install Discord
-if ! is_installed discord; then
-    echo "Installing Discord..."
-    sudo snap install discord
-else
-    echo "Discord is already installed."
-fi
+    # Install Visual Studio Code
+    if ! is_installed code; then
+        echo -e "${YELLOW}Installing Visual Studio Code...${NC}"
+        sudo snap install code --classic
+    else
+        echo -e "${GREEN}Visual Studio Code is already installed.${NC}"
+    fi
 
-# Install Google Chrome
-if ! is_installed google-chrome; then
-    echo "Installing Google Chrome..."
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-    rm google-chrome-stable_current_amd64.deb  # Clean up
-else
-    echo "Google Chrome is already installed."
-fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then 
+   # macOS specific commands
+   
+   # Update Homebrew and upgrade installed packages.
+   echo -e "${YELLOW}Step 1: Updating Homebrew...${NC}"
+   brew update
+   
+   echo -e "${YELLOW}Step 2: Upgrading installed packages...${NC}"
+   brew upgrade
+   
+   # Install essential build tools (Xcode Command Line Tools)
+   xcode-select --install
+   
+   # Install Git, Docker, Java, Maven, Node.js, IntelliJ IDEA, etc.
+   install_if_not_installed git
+   
+   if ! is_installed docker; then 
+       echo -e "${YELLOW}Installing Docker...${NC}" 
+       brew install --cask docker 
+   else 
+       echo -e "${GREEN}Docker is already installed.${NC}" 
+   fi 
 
-# Install Multipass
-if ! is_installed multipass; then
-    echo "Installing Multipass..."
-    sudo snap install multipass
-else
-    echo "Multipass is already installed."
-fi
+   if ! is_installed java; then 
+       echo "Which version of Java would you like to install? (e.g., 17, 21)" 
+       read -r java_version 
+       echo -e "${YELLOW}Installing OpenJDK $java_version...${NC}" 
+       brew tap homebrew/cask-versions 
+       brew install "openjdk@$java_version" 
+   else 
+       echo -e "${GREEN}Java is already installed.${NC}" 
+   fi 
 
-# Install SSH (if not already installed)
-install_if_not_installed openssh-client
-install_if_not_installed openssh-server
+   install_if_not_installed maven 
 
-# Set up GitHub SSH keys
-echo "Setting up GitHub SSH keys..."
+   if ! is_installed node; then 
+       echo -e "${YELLOW}Installing Node.js and npm...${NC}" 
+       brew install node 
+   else 
+       echo -e "${GREEN}Node.js and npm are already installed.${NC}" 
+   fi 
 
-# Prompt for user email
-prompt_for_input "Enter your GitHub email" git_email
+   if ! is_installed idea; then 
+       echo -e "${YELLOW}Installing IntelliJ IDEA Community Edition...${NC}" 
+       brew install --cask intellij-idea-ce 
+   else 
+       echo -e "${GREEN}IntelliJ IDEA Community Edition is already installed.${NC}" 
+   fi 
 
-# Prompt for user name
-prompt_for_input "Enter your GitHub username" git_username
+   if ! is_installed code; then 
+       echo -e "${YELLOW}Installing Visual Studio Code...${NC}" 
+       brew install --cask visual-studio-code 
+   else 
+       echo -e "${GREEN}Visual Studio Code is already installed.${NC}" 
+   fi 
 
-if [ ! -d "$HOME/.ssh" ]; then
-    mkdir -p "$HOME/.ssh"
-fi
-chmod 700 "$HOME/.ssh"
+else 
+   echo "Unsupported OS type: $OSTYPE"
+   exit 1 
+fi 
 
-# Generate SSH key
-ssh-keygen -t rsa -b 4096 -C "$git_email" -f "$HOME/.ssh/id_rsa" -N ""
+# Clean up unused dependencies.
+echo -e "${YELLOW}Cleaning up...${NC}"
 
-# Start SSH agent
-eval "$(ssh-agent -s)"
-ssh-add "$HOME/.ssh/id_rsa"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then 
+   sudo apt autoremove -y 
+elif [[ "$OSTYPE" == "darwin"* ]]; then 
+   brew cleanup 
+fi 
 
-# Display the public key for GitHub setup
-echo "Your public SSH key (add this to your GitHub account):"
-cat "$HOME/.ssh/id_rsa.pub"
-
-# Configure Git for commit signing
-git config --global user.name "$git_username"  # Use the provided username
-git config --global user.email "$git_email"  # Use the provided email
-git config --global commit.gpgSign true  # Enable commit signing
-git config --global gpg.program "ssh"     # Use SSH for signing
-
-# Clean up
-echo "Cleaning up..."
-sudo apt autoremove -y
-
-echo "Installation complete! Please add the above SSH key to your GitHub account."
+echo -e "${GREEN}=============================================================="
+echo -e "      All done! Your system is ready for work. 🎉"
+echo -e "==============================================================${NC}"
